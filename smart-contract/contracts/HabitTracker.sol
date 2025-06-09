@@ -6,17 +6,15 @@ contract HabitTracker {
 
     struct Habit {
         address user;
+        bool active;
+        bool isCompleted;
         string title;
         uint256 startTime;
         uint256 durationDays;
         uint256 dailyStake;
         uint256 checkIns;
         uint256 streak;
-        bool active;
-        bool isCompleted;
         uint256 lastCheckIn;
-        bool success;
-        uint256 reward;
         uint256 completedAt;
     }
 
@@ -84,8 +82,6 @@ contract HabitTracker {
                 active: true,
                 isCompleted: false,
                 lastCheckIn: 0,
-                success: false,
-                reward: 0,
                 completedAt: 0
             })
         );
@@ -142,8 +138,6 @@ contract HabitTracker {
                 reward += STREAK_BONUS;
                 totalPool -= STREAK_BONUS;
             }
-            habit.success = true;
-            habit.reward = reward;
             payable(msg.sender).transfer(reward);
             emit HabitCompleted(msg.sender, _habitId, true, reward);
         } else {
